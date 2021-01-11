@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-const config = require('config');
 
 const app = express();
 app.use(express.json());
@@ -13,7 +12,7 @@ if(process.env.NODE_ENV === 'production') {
     });
 }
 
-const dbURI = config.get('dbURI');
+const dbURI = process.env.DBURI;
 const port = process.env.PORT || 4000;
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
   .then((result) => app.listen(port))

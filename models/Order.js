@@ -6,7 +6,7 @@ const OrderSchema = new Schema({
         type: String,
         required: true
     },
-    items: [{
+    itemsId: [{
         type: String
     }],
     address: {

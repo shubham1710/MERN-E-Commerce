@@ -1,0 +1,4 @@
+{
+    "dbURI": "Your MongoDB URI",
+    "jwtsecret": "your secret mern key"
+}

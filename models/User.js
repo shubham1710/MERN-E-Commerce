@@ -18,7 +18,7 @@ const UserSchema = new Schema({
     user_type: {
         type: String,
         required: true,
-        default: 'User'
+        default: 'Customer'
     },
     register_date: {
         type: Date,

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema();
+const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
 
 const UserSchema = new Schema({
@@ -10,7 +10,8 @@ const UserSchema = new Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        lowercase: true
     },
     password: {
         type: String,
@@ -20,7 +21,7 @@ const UserSchema = new Schema({
         type: Date,
         default: Date.now
     }
-});
+})
 
 UserSchema.pre('save', async function(next){
     const salt = await bcrypt.genSalt();

@@ -4,6 +4,7 @@ const path = require('path');
 const config = require('config');
 const authRoutes = require('./routes/auth');
 const itemRoutes = require('./routes/item');
+const cartRoutes = require('./routes/cart');
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -25,3 +26,4 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
 
 app.use('/api',authRoutes);
 app.use('/api',itemRoutes);
+app.use('/api',cartRoutes);

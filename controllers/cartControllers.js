@@ -6,7 +6,7 @@ module.exports.get_cart_items = async (req,res) => {
     const userId = req.params.id;
     try{
         let cart = await Cart.findOne({userId});
-        if(cart){
+        if(cart && cart.items.length>0){
             res.send(cart);
         }
         else{
@@ -66,6 +66,29 @@ module.exports.add_cart_item = async (req,res) => {
                 return res.status(201).send(newCart);
             }
         }        
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).send("Something went wrong");
+    }
+}
+
+module.exports.delete_item = async (req,res) => {
+    const userId = req.params.userId;
+    const productId = req.params.itemId;
+    try{
+        let cart = await Cart.findOne({userId});
+        let item = await Item.findOne({_id: productId});
+        const price = item.price;
+        let itemIndex = cart.items.findIndex(p => p.productId == productId);
+        if(itemIndex > -1)
+        {
+            let productItem = cart.items[itemIndex];
+            cart.bill -= productItem.quantity*price;
+            cart.items.splice(itemIndex,1);
+        }
+        cart = await cart.save();
+        return res.status(201).send(cart);
     }
     catch (err) {
         console.log(err);

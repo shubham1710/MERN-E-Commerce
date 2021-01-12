@@ -1,5 +1,6 @@
 const Order = require('../models/Order');
 const Cart = require('../models/Cart');
+const Item = require('../models/Item');
 
 module.exports.get_cart_items = async (req,res) => {
     const userId = req.params.id;
@@ -20,10 +21,21 @@ module.exports.get_cart_items = async (req,res) => {
 
 module.exports.add_cart_item = async (req,res) => {
     const userId = req.params.id;
-    const { productId, quantity, price } = req.body;
+    const { productId, quantity } = req.body;
 
     try{
         let cart = await Cart.findOne({userId});
+        let item = await Item.findOne({_id: productId});
+        if(!item){
+            res.status(404).send('Item not found!')
+        }
+        const price = item.price;
+        const name = item.title;
+
+        if(item.quantity < quantity)
+        {
+            res.send('More stock is not avialable');
+        }
         
         if(cart){
             // if cart exists for the user
@@ -37,7 +49,7 @@ module.exports.add_cart_item = async (req,res) => {
                 cart.products[itemIndex] = productItem;
             }
             else {
-                cart.items.push({ productId, quantity, price });
+                cart.items.push({ productId, name, quantity, price });
             }
             cart.bill += quantity*price;
             cart = await cart.save();
@@ -47,7 +59,7 @@ module.exports.add_cart_item = async (req,res) => {
             // no cart exists, create one
             const newCart = await Cart.create({
                 userId,
-                items: [{ productId, quantity, price }],
+                items: [{ productId, name, quantity, price }],
                 bill: quantity*price
             });
             return res.status(201).send(newCart);

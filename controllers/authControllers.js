@@ -21,7 +21,7 @@ const handleErrors = (err) => {
         errors.email = 'That email is already registered';
         return errors;
     }
-    
+  
     // validation error
     if(err.message.includes('user validation failed')){
         Object.values(err.errors).forEach(({properties}) => {

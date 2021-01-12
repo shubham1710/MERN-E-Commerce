@@ -12,7 +12,10 @@ const CartSchema = new Schema({
             ref: "item"
         },
         name: String,
-        quantity: Number,
+        quantity: {
+            type: Number,
+            default: 0
+        },
         price: Number
     }],
     bill: {

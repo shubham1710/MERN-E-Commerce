@@ -6,6 +6,8 @@ const authRoutes = require('./routes/auth');
 const itemRoutes = require('./routes/item');
 const cartRoutes = require('./routes/cart');
 const cookieParser = require('cookie-parser');
+const Stripe = require('stripe');
+const stripe = Stripe(config.get('StripeAPIKey'));
 
 const app = express();
 app.use(express.json());

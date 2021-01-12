@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const config = require('config');
 const authRoutes = require('./routes/auth');
+const itemRoutes = require('./routes/item');
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -23,3 +24,4 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
   .catch((err) => console.log(err));
 
 app.use('/api',authRoutes);
+app.use('/api',itemRoutes);

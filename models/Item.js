@@ -7,7 +7,7 @@ const ItemSchema = new Schema({
         required: true
     },
     description: {
-        type: Text,
+        type: String,
         required: true
     },
     price: {

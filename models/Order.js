@@ -12,7 +12,11 @@ const OrderSchema = new Schema({
             ref: "item"
         },
         name: String,
-        quantity: Number,
+        quantity: {
+            type: Number,
+            required: true,
+            min: [1, 'Quantity can not be less then 1.']
+        },
         price: Number
     }],
     address: {

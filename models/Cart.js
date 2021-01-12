@@ -14,7 +14,8 @@ const CartSchema = new Schema({
         name: String,
         quantity: {
             type: Number,
-            default: 0
+            required: true,
+            min: [1, 'Quantity can not be less then 1.']
         },
         price: Number
     }],

@@ -18,11 +18,6 @@ const ItemSchema = new Schema({
         type: Number,
         required: true
     },
-    sold: {
-        type: Number,
-        required: true,
-        default: 0
-    },
     date_added: {
         type: Date,
         default: Date.now

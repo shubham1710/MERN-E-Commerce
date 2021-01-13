@@ -26,25 +26,17 @@ module.exports.checkout = async (req,res) => {
         const userId = req.body.userId;
         const address = req.body.address;
         let cart = await Cart.findOne({userId});
-        const bill = cart.bill;
-        
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount: bill,
-            currency: "inr",
+
+        // no payments for now. Will add later!
+        // for now just move cart to order!
+        const order = Order.create({
+            userId,
+            items: cart.items,
+            address: address,
+            bill: cart.bill
         });
-
-        if (paymentIntent.status === "succeeded") {
-            const newOrder = await Order.create({
-                userId,
-                items: cart.items,
-                address: address,
-                bill: bill
-            });
-            const cart = await Cart.findByIdAndDelete({_id: cart._id});
-            return res.send(newOrder);
-        }
-
-        return res.send('Success!')
+        const cart = Cart.findByIdAndDelete({_id:cart.id});
+        return res.status(201).send(order);
     }
     catch(err){
         console.log(err);

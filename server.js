@@ -5,6 +5,7 @@ const config = require('config');
 const authRoutes = require('./routes/auth');
 const itemRoutes = require('./routes/item');
 const cartRoutes = require('./routes/cart');
+const orderRoutes = require('./routes/order');
 const cookieParser = require('cookie-parser');
 const Stripe = require('stripe');
 const stripe = Stripe(config.get('StripeAPIKey'));
@@ -29,3 +30,4 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCr
 app.use('/api',authRoutes);
 app.use('/api',itemRoutes);
 app.use('/api',cartRoutes);
+app.use('/api',orderRoutes);

@@ -29,14 +29,19 @@ module.exports.checkout = async (req,res) => {
 
         // no payments for now. Will add later!
         // for now just move cart to order!
-        const order = Order.create({
-            userId,
-            items: cart.items,
-            address: address,
-            bill: cart.bill
-        });
-        const cart = Cart.findByIdAndDelete({_id:cart.id});
-        return res.status(201).send(order);
+        if(cart){
+            const order = await Order.create({
+                userId,
+                items: cart.items,
+                address: address,
+                bill: cart.bill
+            });
+            const data = await Cart.findByIdAndDelete({_id:cart.id});
+            return res.status(201).send(order);
+        }
+        else{
+            res.status(500).send("You do not have items in cart");
+        }
     }
     catch(err){
         console.log(err);

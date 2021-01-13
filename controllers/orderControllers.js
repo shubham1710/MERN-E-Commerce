@@ -43,6 +43,8 @@ module.exports.checkout = async (req,res) => {
             const cart = await Cart.findByIdAndDelete({_id: cart._id});
             return res.send(newOrder);
         }
+
+        return res.send('Success!')
     }
     catch(err){
         console.log(err);

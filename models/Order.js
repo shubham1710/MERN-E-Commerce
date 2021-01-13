@@ -19,6 +19,10 @@ const OrderSchema = new Schema({
         },
         price: Number
     }],
+    address: {
+        type: String,
+        required: true
+    },
     bill: {
         type: Number,
         required: true

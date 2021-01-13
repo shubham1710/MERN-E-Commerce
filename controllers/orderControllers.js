@@ -1,5 +1,4 @@
 const Order = require('../models/order');
-const User = require('../models/User');
 const config = require('config');
 const Stripe = require('stripe');
 const stripe = Stripe(config.get('StripeAPIKey'));
@@ -25,42 +24,25 @@ module.exports.get_orders = async (req,res) => {
 module.exports.checkout = async (req,res) => {
     try{
         const userId = req.body.userId;
-        const stripeToken = req.body.stripeToken;
-        let user = await User.findOne({_id:userId});
-        const userEmail = user.email;
-        const userName = user.name;
         const address = req.body.address;
-        const amount = req.body.bill;
         let cart = await Cart.findOne({userId});
-
-        stripe.customers.create({
-            email: userEmail,
-            name: userName,
-            source: stripeToken,
-            address: address
-        })
-        .then((customer) => {
-            return stripe.charges.create({
-                amount: amount*100,
-                currency: 'INR',
-                customer: customer.id
-            });
-        })
-        .then((charge) => { 
-            const items = cart.items;
-            Order.create({
-                userId,
-                items: items,
-                address: address,
-                bill: amount
-            }).then((order) => {
-                res.send(order);
-            })
-            
-        }) 
-        .catch((err) => { 
-            res.status(500).send(err) 
+        const bill = cart.bill;
+        
+        const paymentIntent = await stripe.paymentIntents.create({
+            amount: bill,
+            currency: "inr",
         });
+
+        if (paymentIntent.status === "succeeded") {
+            const newOrder = await Order.create({
+                userId,
+                items: cart.items,
+                address: address,
+                bill: bill
+            });
+            const cart = await Cart.findByIdAndDelete({_id: cart._id});
+            return res.send(newOrder);
+        }
     }
     catch(err){
         console.log(err);

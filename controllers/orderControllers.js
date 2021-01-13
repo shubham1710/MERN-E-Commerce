@@ -1,10 +1,11 @@
 const Order = require('../models/order');
 const User = require('../models/User');
+const config = require('config');
 const Stripe = require('stripe');
 const stripe = Stripe(config.get('StripeAPIKey'));
 const Cart = require('../models/Cart');
 
-module.exports.get_order = async (req,res) => {
+module.exports.get_orders = async (req,res) => {
     const userId = req.params.id;
     try{
         let order = await Order.findOne({userId});
@@ -30,6 +31,7 @@ module.exports.checkout = async (req,res) => {
         const userName = user.name;
         const address = req.body.address;
         const amount = req.body.bill;
+        let cart = await Cart.findOne({userId});
 
         stripe.customers.create({
             email: userEmail,
@@ -45,15 +47,16 @@ module.exports.checkout = async (req,res) => {
             });
         })
         .then((charge) => { 
-            let cart = await Cart.findOne({userId});
             const items = cart.items;
-            const newOrder = await Order.create({
+            Order.create({
                 userId,
                 items: items,
                 address: address,
                 bill: amount
-            });
-            res.send(newOrder)
+            }).then((order) => {
+                res.send(order);
+            })
+            
         }) 
         .catch((err) => { 
             res.status(500).send(err) 

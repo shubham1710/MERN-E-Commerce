@@ -1,18 +1,15 @@
 import { Component } from 'react';
-import './App.css';
 import { Provider } from 'react-redux';
-
-import Navbar from './components/Navbar';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import AppNavbar from './components/AppNavbar';
 
 class App extends Component {
   
   render(){
-    return (
-      
+    return (  
         <div className="App">
-          <Navbar/>
-        </div>
-      
+          <AppNavbar/>
+        </div> 
     );
   }
 }

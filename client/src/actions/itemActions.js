@@ -34,7 +34,7 @@ export const updateItem = (id, item) => (dispatch) => {
     axios.put(`/api/items/${id}`, item)
         .then(res => dispatch({
             type: UPDATE_ITEM,
-            payload: Promise.all([id, res.body])
+            payload: Promise.all([id, res.data])
         }))
         .catch(err => dispatch(returnErrors(err.response.data, err.response.status)))
 }

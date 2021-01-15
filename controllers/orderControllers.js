@@ -23,7 +23,7 @@ module.exports.get_orders = async (req,res) => {
 
 module.exports.checkout = async (req,res) => {
     try{
-        const userId = req.body.userId;
+        const userId = req.params.id;
         const address = req.body.address;
         let cart = await Cart.findOne({userId});
 

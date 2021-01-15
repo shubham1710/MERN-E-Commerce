@@ -73,3 +73,9 @@ module.exports.logout = (req,res) => {
     res.cookie('jwt','', {maxAge: 1});
     res.send('Success!');
 }
+
+module.exports.get_user = (req,res) => {
+    User.findById(req.user.id)
+        .select('-password')
+        .then(user => res.json(user));
+}

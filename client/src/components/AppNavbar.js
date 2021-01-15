@@ -9,8 +9,12 @@ class AppNavbar extends Component {
     render() {
       const authLinks = (
         <Fragment>
+          <NavDropdown title="" id="basic-nav-dropdown">
+            <NavDropdown.Item href="#action/3.1">Cart</NavDropdown.Item>
+            <NavDropdown.Item href="#action/3.2">My orders</NavDropdown.Item>
+          </NavDropdown>
           <Nav.Item>
-            <Button variant="danger" className="mr-3">Logout</Button>
+            <Nav.Link>Logout</Nav.Link>
           </Nav.Item>
         </Fragment>
     );
@@ -18,10 +22,10 @@ class AppNavbar extends Component {
     const guestLinks = (
         <Fragment>
           <Nav.Item>
-            <Button variant="primary" className="mr-3">Register</Button>
+            <Nav.Link>Register</Nav.Link>
           </Nav.Item>
           <Nav.Item>
-            <Button variant="success" className="mr-3">Login</Button>
+            <Nav.Link>Login</Nav.Link>
           </Nav.Item>
         </Fragment>
     );

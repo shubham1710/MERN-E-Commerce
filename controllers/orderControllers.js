@@ -6,19 +6,7 @@ const Cart = require('../models/Cart');
 
 module.exports.get_orders = async (req,res) => {
     const userId = req.params.id;
-    try{
-        let order = await Order.findOne({userId});
-        if(order){
-            res.send(order);
-        }
-        else{
-            res.send("You have not made any orders yet!");
-        }
-    }
-    catch(err){
-        console.log(err);
-        res.status(500).send("Something went wrong");
-    }
+    Order.find({userId}).sort({date:-1}).then(orders => res.json(orders));
 }
 
 module.exports.checkout = async (req,res) => {

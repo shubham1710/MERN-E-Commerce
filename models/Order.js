@@ -26,6 +26,10 @@ const OrderSchema = new Schema({
     bill: {
         type: Number,
         required: true
+    },
+    date_added: {
+        type: Date,
+        default: Date.now
     }
 })
 

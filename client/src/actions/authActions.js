@@ -27,7 +27,7 @@ export const register = ({name, email, password}) => dispatch => {
     //request body
     const body = JSON.stringify({name, email, password});
 
-    axios.post('/api/register',body,config)
+    axios.post('http://localhost:4000/api/register',body,config)
         .then(res => dispatch({
             type: REGISTER_SUCCESS,
             payload: res.data
@@ -66,8 +66,7 @@ export const login = ({email, password}) => dispatch => {
 
 // Logout user
 export const logout = () => {
-    axios.get('/api/logout')
-        .then(res => dispatch({
-            type: LOGOUT_SUCCESS
-        }))
+    return {
+        type: LOGOUT_SUCCESS
+    }
 }

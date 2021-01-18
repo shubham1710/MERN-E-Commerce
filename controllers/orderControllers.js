@@ -1,7 +1,4 @@
 const Order = require('../models/order');
-const config = require('config');
-const Stripe = require('stripe');
-const stripe = Stripe(config.get('StripeAPIKey'));
 const Cart = require('../models/Cart');
 
 module.exports.get_orders = async (req,res) => {

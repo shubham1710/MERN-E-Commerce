@@ -10,18 +10,18 @@ const ItemSchema = new Schema({
         type: String,
         required: true
     },
-    price: {
-        type: Number,
+    category:{
+        type: String,
         required: true
     },
-    quantity: {
+    price: {
         type: Number,
         required: true
     },
     date_added: {
         type: Date,
         default: Date.now
-    }
+    },
 });
 
 module.exports = Item = mongoose.model('item',ItemSchema);

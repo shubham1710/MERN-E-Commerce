@@ -13,10 +13,10 @@ import PropTypes from 'prop-types';
 
 class AddItem extends Component {
     state = {
-        title = '',
-        description = '',
-        category = '',
-        price = ''
+        title: '',
+        description: '',
+        category: '',
+        price: ''
     }
 
     static propTypes = {

@@ -47,6 +47,7 @@ class AddItem extends Component {
                 <AppNavbar/>
                 <Container>
                     <h2 className="text-center mb-3">Add a new Item</h2>
+                    { this.props.isAuthenticated ?
                     <Form onSubmit={this.onSubmit}>
                         <FormGroup>
                             <Label for="title">Title</Label>
@@ -92,7 +93,9 @@ class AddItem extends Component {
                                 block
                             >Add Item</Button>
                         </FormGroup>
-                    </Form>
+                    </Form> : 
+                    <h2>Login to add items!</h2>
+                    }
                 </Container>
             </div>
         )

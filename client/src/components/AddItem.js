@@ -18,7 +18,7 @@ class AddItem extends Component {
         title: '',
         description: '',
         category: '',
-        price: ''
+        price: '',
     }
 
     static propTypes = {
@@ -40,6 +40,8 @@ class AddItem extends Component {
         }
 
         this.props.addItem(newItem);
+
+        alert('Item added successfully');
     }
 
     render(){
@@ -105,7 +107,7 @@ class AddItem extends Component {
 
 const mapStateToProps = (state) => ({
     item: state.item,
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps,{addItem})(AddItem);

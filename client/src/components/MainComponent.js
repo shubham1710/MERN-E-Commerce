@@ -8,7 +8,7 @@ import { Container } from 'reactstrap';
 class Main extends Component {
     render(){
         return (
-            <Container>
+            <div>
                 <Switch>
                     <Route path='/home'>
                         <Home/>
@@ -18,7 +18,7 @@ class Main extends Component {
                     </Route>
                     <Redirect to='/home'/>
                 </Switch>
-            </Container>
+            </div>
         )
     }
 }

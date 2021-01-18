@@ -5,7 +5,8 @@ import {
     FormGroup,
     Label,
     Input,
-    Container
+    Container,
+    Alert
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { addItem } from '../actions/itemActions';
@@ -94,7 +95,7 @@ class AddItem extends Component {
                             >Add Item</Button>
                         </FormGroup>
                     </Form> : 
-                    <h2>Login to add items!</h2>
+                    <Alert className="text-center" color="danger">Login to add items!</Alert>
                     }
                 </Container>
             </div>

@@ -2,15 +2,19 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const config = require('config');
+
 const authRoutes = require('./routes/auth');
 const itemRoutes = require('./routes/item');
 const cartRoutes = require('./routes/cart');
 const orderRoutes = require('./routes/order');
-const cookieParser = require('cookie-parser');
 
 const app = express();
 app.use(express.json());
-app.use(cookieParser());
+
+app.use('/api',authRoutes);
+app.use('/api',itemRoutes);
+app.use('/api',cartRoutes);
+app.use('/api',orderRoutes);
 
 if(process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
@@ -24,8 +28,3 @@ const port = process.env.PORT || 4000;
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex:true })
   .then((result) => app.listen(port))
   .catch((err) => console.log(err));
-
-app.use('/api',authRoutes);
-app.use('/api',itemRoutes);
-app.use('/api',cartRoutes);
-app.use('/api',orderRoutes);

@@ -6,7 +6,8 @@ import {
     NavbarBrand, 
     Nav, 
     NavItem, 
-    Container
+    Container, 
+    NavLink,
 } from 'reactstrap';
 import RegisterModal from './auth/registerModal';
 import Logout from './auth/Logout';
@@ -38,6 +39,12 @@ class AppNavbar extends Component {
                     <span className="navbar-text mr-3">
                         <strong>{ user ? `Welcome ${user.name}` : ''}</strong>
                     </span>
+                </NavItem>
+                <NavItem>
+                    <NavLink href="/cart">Cart</NavLink>
+                </NavItem>
+                <NavItem className="mr-2">
+                    <NavLink href="/orders">Orders</NavLink>
                 </NavItem>
                 <NavItem>
                     <Logout/>

@@ -1,9 +1,10 @@
 import { Component } from 'react';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AppNavbar from './components/AppNavbar';
+import Main from './components/MainComponent';
 import store from './store';
 import {loadUser} from './actions/authActions';
+import { BrowserRouter } from 'react-router-dom';
 
 class App extends Component {
   componentDidMount(){
@@ -12,9 +13,11 @@ class App extends Component {
   render(){
     return ( 
       <Provider store={store}>
-        <div className="App">
-          <AppNavbar/>
-        </div> 
+        <BrowserRouter>
+          <div className="App">
+            <Main/>
+          </div> 
+        </BrowserRouter>
         </Provider> 
     );
   }

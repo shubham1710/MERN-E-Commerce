@@ -66,17 +66,15 @@ module.exports.add_cart_item = async (req,res) => {
 }
 
 module.exports.delete_item = async (req,res) => {
-    const userId = req.params.id;
-    const productId = req.body.itemId;
+    const userId = req.params.userId;
+    const productId = req.params.itemId;
     try{
         let cart = await Cart.findOne({userId});
-        let item = await Item.findOne({_id: productId});
-        const price = item.price;
         let itemIndex = cart.items.findIndex(p => p.productId == productId);
         if(itemIndex > -1)
         {
             let productItem = cart.items[itemIndex];
-            cart.bill -= productItem.quantity*price;
+            cart.bill -= productItem.quantity*productItem.price;
             cart.items.splice(itemIndex,1);
         }
         cart = await cart.save();

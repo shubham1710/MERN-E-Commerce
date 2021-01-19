@@ -1,14 +1,16 @@
 import { Component } from 'react';
 import AppNavbar from './AppNavbar';
-import {Card, CardText, CardBody, CardTitle, CardSubtitle, Button, Alert, Container} from 'reactstrap';
+import {Card, CardText, CardBody, CardTitle, CardSubtitle, Button, Alert, Container, Input, FormGroup, Form} from 'reactstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCart, deleteFromCart } from '../actions/cartActions';
+import { checkout } from '../actions/orderActions';
 
 class Cart extends Component {
 
     state = {
-        loaded: false
+        loaded: false,
+        address: ''
     }
 
     static propTypes = {
@@ -17,7 +19,12 @@ class Cart extends Component {
         addToCart: PropTypes.func.isRequired,
         deleteFromCart: PropTypes.func.isRequired,
         user: PropTypes.object.isRequired,
-        cart: PropTypes.object.isRequired
+        cart: PropTypes.object.isRequired,
+        checkout: PropTypes.func.isRequired
+    }
+
+    onChange = (e) => {
+        this.setState({[e.target.name]:e.target.value});
     }
 
     getCartItems = async (id) => {
@@ -28,6 +35,12 @@ class Cart extends Component {
     onDeleteFromCart = (id, itemId) => {
         this.props.deleteFromCart(id, itemId);
     } 
+
+    onSubmit = (e) => {
+        e.preventDefault();
+        const {address} = this.state;
+        this.props.checkout(this.props.user._id, address);
+    }
     
     render(){
         const user = this.props.user;
@@ -45,7 +58,7 @@ class Cart extends Component {
             <Container>
                 <div className="row">
                     {this.props.cart.cart.items.map((item)=>(
-                        <div className="col-md-12">
+                        <div className="col-md-4">
                        <Card>
                            <CardBody>
                                <CardTitle tag="h5">{item.name}</CardTitle>
@@ -57,8 +70,33 @@ class Cart extends Component {
                        <br/>
                        </div>
                     ))}
+                    <div class="col-md-12">
+                    <Card>
+                        <CardBody>
+                            <CardTitle tag="h5">Total Cost = {this.props.cart.cart.bill}</CardTitle>
+                            <Form onSubmit={this.onSubmit}>
+                                <FormGroup>
+                                <Input
+                                    type="text"
+                                    name="address"
+                                    id="address"
+                                    placeholder="Address"
+                                    className="mb-3"
+                                    onChange={this.onChange}
+                                />
+                                <Button
+                                    color="success"
+                                    style={{marginTop: '2rem'}}
+                                    block
+                                >Checkout</Button>
+                                </FormGroup>
+                            </Form>
+                            
+                        </CardBody>
+                    </Card>
+                    </div>
                 </div>
-                </Container>
+            </Container>
                 :null}
             </div>
             
@@ -72,4 +110,4 @@ const mapStateToProps = (state) => ({
     user: state.auth.user,
 })
 
-export default connect(mapStateToProps, {getCart, deleteFromCart})(Cart);
+export default connect(mapStateToProps, {getCart, deleteFromCart, checkout})(Cart);

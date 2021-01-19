@@ -21,8 +21,8 @@ export const addToCart = (id, productId, quantity) => dispatch => {
         .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
 
-export const deleteFromCart = (userId, productId) => dispatch => {
-    axios.delete(`/api/cart/${userId}/${productId}`)
+export const deleteFromCart = (id, itemId) => dispatch => {
+    axios.delete(`/api/cart/${id}`, itemId)
         .then(res => dispatch({
             type: DELETE_FROM_CART,
             payload: res.data

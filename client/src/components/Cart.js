@@ -1,9 +1,9 @@
 import { Component } from 'react';
 import AppNavbar from './AppNavbar';
-import {ListGroup, ListGroupItem, Button, Input, Alert} from 'reactstrap';
+import {Card, CardText, CardBody, CardTitle, CardSubtitle, Button, Alert, Container} from 'reactstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCart, addToCart, deleteFromCart } from '../actions/cartActions';
+import { getCart, deleteFromCart } from '../actions/cartActions';
 
 class Cart extends Component {
 
@@ -20,41 +20,48 @@ class Cart extends Component {
         cart: PropTypes.object.isRequired
     }
 
-    getCartItems = (id) => {
-        this.props.getCart(id);
+    getCartItems = async (id) => {
+        await this.props.getCart(id);
         this.state.loaded = true;
     }
 
-    onUpdateCart = (id, productId, quantity) => {
-        this.props.addToCart(id, productId, quantity);
-    }
-
-    onDeleteFromCart = (id, productId) => {
-        this.props.deleteFromCart(id, productId);
+    onDeleteFromCart = (id, itemId) => {
+        this.props.deleteFromCart(id, itemId);
     } 
     
     render(){
         const user = this.props.user;
+        if(this.props.isAuthenticated && !this.props.cart.loading && !this.state.loaded){
+            this.getCartItems(user._id);
+        }
         return(
             <div>
                 <AppNavbar/>
             {this.props.isAuthenticated ? 
-                <Button
-                    color="success"
-                    size="btn btn-block"
-                    onClick={this.getCartItems.bind(this, user._id)}
-                    >Show Cart Items</Button> 
+                <div/>
                     : <Alert color="danger" className="text-center">Login to View!</Alert>}            
             
-            {this.props.isAuthenticated && this.state.loaded ?
-                <ListGroup>
-                    {this.props.cart.items.map((item)=>(
-                        <ListGroupItem>{item.title}</ListGroupItem>
+            {this.props.isAuthenticated && !this.props.cart.loading && this.state.loaded?
+            <Container>
+                <div className="row">
+                    {this.props.cart.cart.items.map((item)=>(
+                        <div className="col-md-12">
+                       <Card>
+                           <CardBody>
+                               <CardTitle tag="h5">{item.name}</CardTitle>
+                               <CardSubtitle tag="h6">Rs. {item.price}</CardSubtitle>
+                               <CardText>Quantity - {item.quantity}</CardText>
+                               <Button color="danger" onClick={this.onDeleteFromCart.bind(this, user._id, item._id)}>Delete</Button>
+                           </CardBody>
+                       </Card>
+                       <br/>
+                       </div>
                     ))}
-                </ListGroup>
+                </div>
+                </Container>
                 :null}
-                
             </div>
+            
         )
     }
 }
@@ -62,7 +69,7 @@ class Cart extends Component {
 const mapStateToProps = (state) => ({
     cart: state.cart,
     isAuthenticated: state.auth.isAuthenticated,
-    user: state.auth.user
+    user: state.auth.user,
 })
 
-export default connect(mapStateToProps, {getCart, addToCart, deleteFromCart})(Cart);
+export default connect(mapStateToProps, {getCart, deleteFromCart})(Cart);

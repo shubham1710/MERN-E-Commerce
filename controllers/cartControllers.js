@@ -9,7 +9,7 @@ module.exports.get_cart_items = async (req,res) => {
             res.send(cart);
         }
         else{
-            res.send("Your cart is empty!");
+            res.send([]);
         }
     }
     catch(err){

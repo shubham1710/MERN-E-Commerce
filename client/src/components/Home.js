@@ -26,6 +26,7 @@ class Home extends Component {
 
     render(){
         const { items } = this.props.item;
+        const user = this.props.user;
         return (
             <div>
             <AppNavbar/>
@@ -42,7 +43,7 @@ class Home extends Component {
                                 <Button
                                     color="success"
                                     size="sm"
-                                    onClick={this.onAddToCart.bind(this, this.props.user._id, item._id)}
+                                    onClick={this.onAddToCart.bind(this, user._id, item._id)}
                                     >Add To Cart</Button> :
                                     null}
                         </CardBody>

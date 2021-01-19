@@ -16,7 +16,8 @@ class Home extends Component {
         getItems: PropTypes.func.isRequired,
         item: PropTypes.object.isRequired,
         isAuthenticated: PropTypes.bool,
-        addToCart: PropTypes.func.isRequired
+        addToCart: PropTypes.func.isRequired,
+        user: PropTypes.object.isRequired
     }
 
     onAddToCart = (id, productId) => {
@@ -41,7 +42,7 @@ class Home extends Component {
                                 <Button
                                     color="success"
                                     size="sm"
-                                    onClick={this.onAddToCart.bind(this, item._id)}
+                                    onClick={this.onAddToCart.bind(this, this.props.user._id, item._id)}
                                     >Add To Cart</Button> :
                                     null}
                         </CardBody>
@@ -57,7 +58,8 @@ class Home extends Component {
 
 const mapStateToProps = (state) => ({
     item: state.item,
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user
 })
 
 export default connect(mapStateToProps, {getItems, addToCart})(Home);

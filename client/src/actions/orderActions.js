@@ -12,8 +12,8 @@ export const getOrders = (id) => dispatch => {
         .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
 
-export const checkout = (id, address) => dispatch => {
-    axios.post(`/api/order/${id}`, address)
+export const checkout = (id) => dispatch => {
+    axios.post(`/api/order/${id}`)
         .then(res => dispatch({
             type: CHECKOUT,
             payload: res.data

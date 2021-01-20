@@ -1,6 +1,6 @@
-import { Component } from 'react';
+import { Component, Fragment } from 'react';
 import AppNavbar from './AppNavbar';
-import {Card, CardText, CardBody, CardTitle, CardSubtitle, Button, Alert, Container, Input, FormGroup, Form} from 'reactstrap';
+import {Card, CardText, CardBody, CardTitle, CardSubtitle, Button, Alert, Container} from 'reactstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCart, deleteFromCart } from '../actions/cartActions';
@@ -10,7 +10,6 @@ class Cart extends Component {
 
     state = {
         loaded: false,
-        address: ''
     }
 
     static propTypes = {
@@ -23,10 +22,6 @@ class Cart extends Component {
         checkout: PropTypes.func.isRequired
     }
 
-    onChange = (e) => {
-        this.setState({[e.target.name]:e.target.value});
-    }
-
     getCartItems = async (id) => {
         await this.props.getCart(id);
         this.state.loaded = true;
@@ -36,10 +31,8 @@ class Cart extends Component {
         this.props.deleteFromCart(id, itemId);
     } 
 
-    onSubmit = (e) => {
-        e.preventDefault();
-        const {address} = this.state;
-        this.props.checkout(this.props.user._id, address);
+    onCheckout = (id) => {
+        this.props.checkout(id);
     }
     
     render(){
@@ -50,11 +43,14 @@ class Cart extends Component {
         return(
             <div>
                 <AppNavbar/>
-            {this.props.isAuthenticated ? 
-                <div/>
-                    : <Alert color="danger" className="text-center">Login to View!</Alert>}            
+            {this.props.isAuthenticated ? <Fragment>
+                {this.props.cart.cart ? <div/> :
+                    <Alert color="info" className="text-center">Your cart is empty!</Alert>
+                    } </Fragment>
+                    : <Alert color="danger" className="text-center">Login to View!</Alert>}   
+        
             
-            {this.props.isAuthenticated && !this.props.cart.loading && this.state.loaded?
+            {this.props.isAuthenticated && !this.props.cart.loading && this.state.loaded && this.props.cart.cart?
             <Container>
                 <div className="row">
                     {this.props.cart.cart.items.map((item)=>(
@@ -73,25 +69,11 @@ class Cart extends Component {
                     <div class="col-md-12">
                     <Card>
                         <CardBody>
-                            <CardTitle tag="h5">Total Cost = {this.props.cart.cart.bill}</CardTitle>
-                            <Form onSubmit={this.onSubmit}>
-                                <FormGroup>
-                                <Input
-                                    type="text"
-                                    name="address"
-                                    id="address"
-                                    placeholder="Address"
-                                    className="mb-3"
-                                    onChange={this.onChange}
-                                />
-                                <Button
-                                    color="success"
-                                    style={{marginTop: '2rem'}}
-                                    block
-                                >Checkout</Button>
-                                </FormGroup>
-                            </Form>
-                            
+                            <CardTitle tag="h5">Total Cost = Rs. {this.props.cart.cart.bill}</CardTitle>
+                            <Button
+                                color="success"
+                                onClick={this.onCheckout.bind(this, user._id)}
+                            >Checkout</Button>                         
                         </CardBody>
                     </Card>
                     </div>

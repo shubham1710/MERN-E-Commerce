@@ -9,7 +9,6 @@ module.exports.get_orders = async (req,res) => {
 module.exports.checkout = async (req,res) => {
     try{
         const userId = req.params.id;
-        const address = req.body.address;
         let cart = await Cart.findOne({userId});
 
         // no payments for now. Will add later!
@@ -18,7 +17,6 @@ module.exports.checkout = async (req,res) => {
             const order = await Order.create({
                 userId,
                 items: cart.items,
-                address: address,
                 bill: cart.bill
             });
             const data = await Cart.findByIdAndDelete({_id:cart.id});

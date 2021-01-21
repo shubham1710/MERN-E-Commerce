@@ -43,43 +43,46 @@ class Cart extends Component {
         return(
             <div>
                 <AppNavbar/>
-            {this.props.isAuthenticated ? <Fragment>
-                {this.props.cart.cart ? <div/> :
-                    <Alert color="info" className="text-center">Your cart is empty!</Alert>
-                    } </Fragment>
-                    : <Alert color="danger" className="text-center">Login to View!</Alert>}   
+                {this.props.isAuthenticated ?
+                    <Fragment>
+                        {this.props.cart.cart ? null :
+                            <Alert color="info" className="text-center">Your cart is empty!</Alert>
+                        }
+                    </Fragment>
+                    : <Alert color="danger" className="text-center">Login to View!</Alert>
+                }  
         
             
-            {this.props.isAuthenticated && !this.props.cart.loading && this.state.loaded && this.props.cart.cart?
-            <Container>
-                <div className="row">
-                    {this.props.cart.cart.items.map((item)=>(
-                        <div className="col-md-4">
-                       <Card>
-                           <CardBody>
-                               <CardTitle tag="h5">{item.name}</CardTitle>
-                               <CardSubtitle tag="h6">Rs. {item.price}</CardSubtitle>
-                               <CardText>Quantity - {item.quantity}</CardText>
-                               <Button color="danger" onClick={this.onDeleteFromCart.bind(this, user._id, item._id)}>Delete</Button>
-                           </CardBody>
-                       </Card>
-                       <br/>
-                       </div>
-                    ))}
-                    <div class="col-md-12">
-                    <Card>
-                        <CardBody>
-                            <CardTitle tag="h5">Total Cost = Rs. {this.props.cart.cart.bill}</CardTitle>
-                            <Button
-                                color="success"
-                                onClick={this.onCheckout.bind(this, user._id)}
-                            >Checkout</Button>                         
-                        </CardBody>
-                    </Card>
+                {this.props.isAuthenticated && !this.props.cart.loading && this.state.loaded && this.props.cart.cart?
+                <Container>
+                    <div className="row">
+                        {this.props.cart.cart.items.map((item)=>(
+                            <div className="col-md-4">
+                        <Card>
+                            <CardBody>
+                                <CardTitle tag="h5">{item.name}</CardTitle>
+                                <CardSubtitle tag="h6">Rs. {item.price}</CardSubtitle>
+                                <CardText>Quantity - {item.quantity}</CardText>
+                                <Button color="danger" onClick={this.onDeleteFromCart.bind(this, user._id, item._id)}>Delete</Button>
+                            </CardBody>
+                        </Card>
+                        <br/>
+                        </div>
+                        ))}
+                        <div class="col-md-12">
+                        <Card>
+                            <CardBody>
+                                <CardTitle tag="h5">Total Cost = Rs. {this.props.cart.cart.bill}</CardTitle>
+                                <Button
+                                    color="success"
+                                    onClick={this.onCheckout.bind(this, user._id)}
+                                >Checkout</Button>                         
+                            </CardBody>
+                        </Card>
+                        </div>
                     </div>
-                </div>
-            </Container>
-                :null}
+                </Container>
+                    :null}
             </div>
             
         )

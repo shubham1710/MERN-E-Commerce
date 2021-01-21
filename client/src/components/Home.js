@@ -34,7 +34,7 @@ class Home extends Component {
                 <div className="row">
                 {items.map((item)=>(
                     <div className="col-md-4">
-                    <Card>
+                    <Card className="mb-4">
                         <CardBody>
                             <CardTitle tag="h5">{item.title}</CardTitle>
                             <CardSubtitle tag="h6">Rs. {item.price}</CardSubtitle>

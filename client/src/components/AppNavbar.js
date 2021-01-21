@@ -41,6 +41,9 @@ class AppNavbar extends Component {
                     </span>
                 </NavItem>
                 <NavItem>
+                    <NavLink href="/">Home</NavLink>
+                </NavItem>
+                <NavItem>
                     <NavLink href="/cart">Cart</NavLink>
                 </NavItem>
                 <NavItem className="mr-2">

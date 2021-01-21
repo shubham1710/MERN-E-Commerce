@@ -63,7 +63,7 @@ class Cart extends Component {
                                 <CardTitle tag="h5">{item.name}</CardTitle>
                                 <CardSubtitle tag="h6">Rs. {item.price}</CardSubtitle>
                                 <CardText>Quantity - {item.quantity}</CardText>
-                                <Button color="danger" onClick={this.onDeleteFromCart.bind(this, user._id, item._id)}>Delete</Button>
+                                <Button color="danger" onClick={this.onDeleteFromCart.bind(this, user._id, item.productId)}>Delete</Button>
                             </CardBody>
                         </Card>
                         <br/>

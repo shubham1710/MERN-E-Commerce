@@ -1,0 +1,5 @@
+{
+    "dbURI": "mongodb+srv://shubham:shubham123@cluster0.lyhve.mongodb.net/ecom?retryWrites=true&w=majority",
+    "jwtsecret": "e commerce app with mern",
+    "StripeAPIKey": "sk_test_bO1PBN9aUGxGlERZP69pn8ky00xB9CEove"
+}

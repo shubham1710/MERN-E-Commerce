@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCart, deleteFromCart } from '../actions/cartActions';
 import Checkout from './Checkout';
-
+import { checkout } from '../actions/orderActions'
+;
 class Cart extends Component {
 
     state = {
@@ -19,6 +20,7 @@ class Cart extends Component {
         deleteFromCart: PropTypes.func.isRequired,
         user: PropTypes.object.isRequired,
         cart: PropTypes.object.isRequired,
+        checkout: PropTypes.func.isRequired
     }
 
     getCartItems = async (id) => {
@@ -69,7 +71,9 @@ class Cart extends Component {
                             <CardBody>
                                 <CardTitle tag="h5">Total Cost = Rs. {this.props.cart.cart.bill}</CardTitle>
                                 <Checkout
+                                    user={user._id}
                                     amount={this.props.cart.cart.bill}
+                                    checkout={this.props.checkout}
                                 />                      
                             </CardBody>
                         </Card>
@@ -89,4 +93,4 @@ const mapStateToProps = (state) => ({
     user: state.auth.user,
 })
 
-export default connect(mapStateToProps, {getCart, deleteFromCart})(Cart);
+export default connect(mapStateToProps, {getCart, deleteFromCart, checkout})(Cart);

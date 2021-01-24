@@ -13,7 +13,7 @@ export const getOrders = (id) => dispatch => {
 }
 
 export const checkout = (id, source) => dispatch => {
-    axios.post(`/api/order/${id}`, source)
+    axios.post(`/api/order/${id}`, {source})
         .then(res => dispatch({
             type: CHECKOUT,
             payload: res.data

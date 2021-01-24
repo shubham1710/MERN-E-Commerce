@@ -4,7 +4,7 @@ import {Card, CardText, CardBody, CardTitle, CardSubtitle, Button, Alert, Contai
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getCart, deleteFromCart } from '../actions/cartActions';
-import { checkout } from '../actions/orderActions';
+import Checkout from './Checkout';
 
 class Cart extends Component {
 
@@ -19,7 +19,6 @@ class Cart extends Component {
         deleteFromCart: PropTypes.func.isRequired,
         user: PropTypes.object.isRequired,
         cart: PropTypes.object.isRequired,
-        checkout: PropTypes.func.isRequired
     }
 
     getCartItems = async (id) => {
@@ -30,10 +29,6 @@ class Cart extends Component {
     onDeleteFromCart = (id, itemId) => {
         this.props.deleteFromCart(id, itemId);
     } 
-
-    onCheckout = (id) => {
-        this.props.checkout(id);
-    }
     
     render(){
         const user = this.props.user;
@@ -73,10 +68,9 @@ class Cart extends Component {
                         <Card>
                             <CardBody>
                                 <CardTitle tag="h5">Total Cost = Rs. {this.props.cart.cart.bill}</CardTitle>
-                                <Button
-                                    color="success"
-                                    onClick={this.onCheckout.bind(this, user._id)}
-                                >Checkout</Button>                         
+                                <Checkout
+                                    amount={this.props.cart.cart.bill}
+                                />                      
                             </CardBody>
                         </Card>
                         </div>
@@ -95,4 +89,4 @@ const mapStateToProps = (state) => ({
     user: state.auth.user,
 })
 
-export default connect(mapStateToProps, {getCart, deleteFromCart, checkout})(Cart);
+export default connect(mapStateToProps, {getCart, deleteFromCart})(Cart);

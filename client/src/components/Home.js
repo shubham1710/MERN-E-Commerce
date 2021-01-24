@@ -20,8 +20,9 @@ class Home extends Component {
         user: PropTypes.object.isRequired
     }
 
-    onAddToCart = (id, productId) => {
-        this.props.addToCart(id, productId, 1);
+    onAddToCart = async (id, productId) => {
+        await this.props.addToCart(id, productId, 1);
+        alert ('Item added to Cart');
     }
 
     render(){

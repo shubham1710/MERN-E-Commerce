@@ -74,7 +74,7 @@ class Cart extends Component {
                                     user={user._id}
                                     amount={this.props.cart.cart.bill}
                                     checkout={this.props.checkout}
-                                />                      
+                                />                   
                             </CardBody>
                         </Card>
                         </div>

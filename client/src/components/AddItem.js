@@ -29,7 +29,7 @@ class AddItem extends Component {
         this.setState({[e.target.name]:e.target.value});
     }
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault();
 
         const newItem = {
@@ -39,7 +39,7 @@ class AddItem extends Component {
             price: this.state.price
         }
 
-        this.props.addItem(newItem);
+        await this.props.addItem(newItem);
 
         alert('Item added successfully');
     }

@@ -1,7 +1,4 @@
 import StripeCheckout from 'react-stripe-checkout';
-import { checkout } from '../actions/orderActions';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
 const STRIPE_PUBLISHABLE = 'pk_test_0eKSi4tnuGE57U2ITlBiVU3v00pG2nTPAR';
 

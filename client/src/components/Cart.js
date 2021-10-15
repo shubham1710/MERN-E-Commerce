@@ -3,7 +3,7 @@ import AppNavbar from './AppNavbar';
 import {Card, CardText, CardBody, CardTitle, CardSubtitle, Button, Alert, Container} from 'reactstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCart, deleteFromCart } from '../actions/cartActions';
+import { getCart, deleteFromCart, updateCart } from '../actions/cartActions';
 import Checkout from './Checkout';
 import { checkout } from '../actions/orderActions'
 ;
@@ -31,6 +31,9 @@ class Cart extends Component {
     onDeleteFromCart = (id, itemId) => {
         this.props.deleteFromCart(id, itemId);
     } 
+    onUpdateQuantity = async (userId, productId, qty) => {
+      await this.props.updateCart(userId, productId, qty);
+    }
     
     render(){
         const user = this.props.user;
@@ -59,7 +62,15 @@ class Cart extends Component {
                             <CardBody>
                                 <CardTitle tag="h5">{item.name}</CardTitle>
                                 <CardSubtitle tag="h6">Rs. {item.price}</CardSubtitle>
-                                <CardText>Quantity - {item.quantity}</CardText>
+                                <div style={qtyBox}>
+                                  <p style={{...qtyBtn, border:"1px solid red", color: "Red"}} onClick={() => this.onUpdateQuantity(user._id, item.productId, item.quantity - 1)}>
+                                    -1
+                                  </p>
+                                  <CardText>Quantity - {item.quantity}</CardText>
+                                  <p style={{...qtyBtn, border:"1px solid green", color: "green"}} onClick={() => this.onUpdateQuantity(user._id, item.productId, item.quantity + 1)}>
+                                    +1
+                                  </p>
+                                </div>
                                 <Button color="danger" onClick={this.onDeleteFromCart.bind(this, user._id, item.productId)}>Delete</Button>
                             </CardBody>
                         </Card>
@@ -93,4 +104,7 @@ const mapStateToProps = (state) => ({
     user: state.auth.user,
 })
 
-export default connect(mapStateToProps, {getCart, deleteFromCart, checkout})(Cart);
+const qtyBox = {display: "flex", justifyContent: "space-evenly", border: "1px solid #aaa", borderRadius: "5px", paddingTop: "5px", paddingBottom: "5px", marginBottom: "5px"};
+const qtyBtn = {paddingLeft: "5px", paddingRight: "5px", borderRadius: "5px", marginBottom: "0px"};
+
+export default connect(mapStateToProps, {getCart, updateCart, deleteFromCart, checkout})(Cart);

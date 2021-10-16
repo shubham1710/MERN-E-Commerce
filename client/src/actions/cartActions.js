@@ -12,6 +12,19 @@ export const getCart = (id) => dispatch => {
         .catch(err => dispatch(returnErrors(err.response.data, err.response.status)));
 }
 
+export const updateCart = (userId, productId, qty) => dispatch => {
+  dispatch(setCartLoading());
+  axios.put(`/api/cart/${userId}`, {productId, qty})
+      .then(res => dispatch({
+          type: GET_CART,
+          payload: res.data
+      }))
+      .catch(err => {
+        console.log("Error in update cart:", err);
+        dispatch(returnErrors(err.response.data, err.response.status))
+      });
+}
+
 export const addToCart = (id, productId, quantity) => dispatch => {
     axios.post(`/api/cart/${id}`, {productId, quantity})
         .then(res => dispatch({
